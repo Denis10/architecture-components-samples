@@ -1,5 +1,5 @@
 Android Architecture Components Paging Sample
-===================================
+==============================================
 
 This sample showcases the following Architecture Components:
 
@@ -8,11 +8,14 @@ This sample showcases the following Architecture Components:
 * [ViewModels](https://developer.android.com/reference/android/arch/lifecycle/ViewModel.html)
 * [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData.html)
 
-## Features
+Introduction
+-------------
+
+### Features
 
 This sample contains a single screen with a list of text items. Items can be added to the list with the input at the top, and swiping items in the list removes them.
 
-## License
+License
 -------
 
 Copyright 2017 The Android Open Source Project, Inc.
@@ -31,6 +34,3 @@ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
 WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
 License for the specific language governing permissions and limitations under
 the License.
-
-
-
