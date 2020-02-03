@@ -17,17 +17,22 @@
 package com.example.android.navigationadvancedsample
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.example.android.navigationadvancedsample.homescreen.Login
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
  * An activity that inflates a layout that has a [BottomNavigationView].
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainRouter {
+
+    var toHomeCallback: ((dest: Int) -> Unit)? = null
+    lateinit var bottomNavigationView: BottomNavigationView
 
     private var currentNavController: LiveData<NavController>? = null
 
@@ -51,21 +56,30 @@ class MainActivity : AppCompatActivity() {
      * Called on first creation and when restoring state.
      */
     private fun setupBottomNavigationBar() {
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNavigationView = findViewById(R.id.bottom_nav)
 
-        val navGraphIds = listOf(R.navigation.home, R.navigation.list, R.navigation.form)
+        val navGraphIds = listOf(R.navigation.login, R.navigation.list, R.navigation.form)
 
-        // Setup the bottom navigation view with a list of navigation graphs
-        val controller = bottomNavigationView.setupWithNavController(
-            navGraphIds = navGraphIds,
-            fragmentManager = supportFragmentManager,
-            containerId = R.id.nav_host_container,
-            intent = intent
+        val pair = bottomNavigationView.setupWithNavController2(
+                navGraphIds = navGraphIds,
+                fragmentManager = supportFragmentManager,
+                containerId = R.id.nav_host_container,
+                intent = intent
         )
+        // Setup the bottom navigation view with a list of navigation graphs
+        val controller = pair.first
+        toHomeCallback = pair.second
 
         // Whenever the selected controller changes, setup the action bar.
         controller.observe(this, Observer { navController ->
             setupActionBarWithNavController(navController)
+            navController.addOnDestinationChangedListener { controller, destination, arguments ->
+                if (destination.id == R.id.loginScreen){
+                    bottomNavigationView.visibility = View.GONE
+                } else {
+                    bottomNavigationView.visibility = View.VISIBLE
+                }
+            }
         })
         currentNavController = controller
     }
@@ -73,4 +87,13 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return currentNavController?.value?.navigateUp() ?: false
     }
+
+    override fun route() {
+        toHomeCallback?.invoke(R.id.home)
+    }
+}
+
+
+interface MainRouter {
+    fun route()
 }
