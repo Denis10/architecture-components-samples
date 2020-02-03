@@ -21,7 +21,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/form"
     app:startDestination="@id/register">
-
+<!--    <include app:graph="@navigation/home" />-->
     <fragment
             android:id="@+id/register"
             android:name="com.example.android.navigationadvancedsample.formscreen.Register"
@@ -35,5 +35,19 @@
         android:id="@+id/registered"
         android:name="com.example.android.navigationadvancedsample.formscreen.Registered"
         android:label="Registered"
-        tools:layout="@layout/fragment_registered"/>
+        tools:layout="@layout/fragment_registered">
+        <!--            app:popUpTo="@id/home"-->
+        <!--            app:popUpToInclusive="true"-->
+        <action
+            android:id="@+id/action_registered_to_test"
+            app:popUpTo="@id/home"
+            app:popUpToInclusive="false"
+            app:destination="@id/test"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/test"
+        android:name="com.example.android.navigationadvancedsample.formscreen.Test"
+        android:label="Test"
+        tools:layout="@layout/fragment_test"/>
 </navigation>
